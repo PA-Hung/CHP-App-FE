@@ -280,32 +280,38 @@ const AccommodationTable = () => {
     }
   };
 
+  // Hàm xử lý tải xuống file Excel
+  const downloadExcelFile = (buffer, fileName) => {
+    const uint8Array = new Uint8Array(buffer);
+    const blob = new Blob([uint8Array], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    const blobUrl = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = fileName;
+    link.click();
+
+    // Giải phóng URL của Blob sau khi đã sử dụng
+    URL.revokeObjectURL(blobUrl);
+  };
+
   const handleExport = async () => {
     try {
       const response = await exportExcel();
       if (response.statusCode === 200) {
-        const data = response.data;
-        console.log("data", data);
-        // Tạo workbook và worksheet từ dữ liệu
-        const ws = XLSX.utils.json_to_sheet(data);
+        // Chuyển đổi Buffer thành ArrayBuffer
+        // Chuyển đổi dữ liệu JSON thành worksheet của workbook
+        const ws = XLSX.utils.json_to_sheet(response.data);
+
+        // Tạo workbook và append worksheet vào đó
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
 
-        // Chuyển đổi workbook thành ArrayBuffer
-        const buffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-
-        // Tạo Blob từ ArrayBuffer
-        const blob = new Blob([buffer], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
-
-        // Tạo và tải tệp Excel khi người dùng nhấp vào nút
-        const link = document.createElement("a");
-        link.href = window.URL.createObjectURL(blob);
-        link.download = "exported_data.xlsx";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Tạo tệp Excel và tải về
+        XLSX.writeFile(wb, "exported_data.xlsx");
       }
     } catch (error) {
       console.error("Export error:", error);
