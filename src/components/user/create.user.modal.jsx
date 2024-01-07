@@ -102,7 +102,7 @@ const CreateUserModal = (props) => {
                 allowClear
                 options={[
                   { value: "ADMIN", label: "Admin" },
-                  { value: "USER", label: "User" },
+                  { value: "HOST", label: "Host" },
                 ]}
               />
             </Form.Item>

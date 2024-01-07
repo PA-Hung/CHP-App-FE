@@ -19,7 +19,7 @@ import { setThemeMode } from "../redux/slice/themeSilce";
 
 const { Footer, Sider, Content } = Layout;
 
-const LayoutAdmin = (props) => {
+const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const LayoutAdmin = (props) => {
       dispatch(
         setActiveKey({
           activeKey: e.key,
-          title: "Bảng đăng ký sản xuất tiền kỳ chuyên mục tuần",
+          title: "Home Admin",
         })
       );
     }
@@ -103,7 +103,7 @@ const LayoutAdmin = (props) => {
       label: <Link to={"/admin/accommodation"}>Quản lý lưu trú</Link>,
       key: "accommodation",
       icon: <CalendarOutlined />,
-      visible: isAdmin === "ADMIN" ? "true" : "false",
+      visible: "true",
     },
     {
       label: <Link to={"/admin/user"}>Quản lý người dùng</Link>,

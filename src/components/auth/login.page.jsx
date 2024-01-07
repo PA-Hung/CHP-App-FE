@@ -6,6 +6,7 @@ import { postLogin } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLoginInfo } from "../../redux/slice/authSlice";
 import { useLocation } from "react-router-dom";
+import { setActiveKey } from "../../redux/slice/menuSilce";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -14,10 +15,19 @@ const Login = () => {
   let location = useLocation();
   let params = new URLSearchParams(location.search);
   const callback = params?.get("callback");
+  const activeKey = useSelector((state) => state.menu.activeKey);
 
   useEffect(() => {
     if (isAuthenticated === true) {
       window.location.href = "/admin";
+      if (activeKey !== "home") {
+        dispatch(
+          setActiveKey({
+            activeKey: "home",
+            title: "Home Admin",
+          })
+        );
+      }
     }
   }, []);
 
@@ -27,7 +37,7 @@ const Login = () => {
       notification.success({ message: "Đăng nhập tài khoản thành công!" });
       dispatch(setUserLoginInfo(res.data.user));
       localStorage.setItem("access_token", res.data.access_token);
-      window.location.href = callback ? callback : "/admin";
+      window.location.href = callback ? callback : `/admin`;
     } else {
       notification.error({
         message: "Đăng nhập thất bại !",

@@ -35,7 +35,7 @@ const exportExcel = () => {
 }
 
 // const exportExcel = (query) => {
-//     return axios.get(`api/v1/excel/import?${query}`)
+//     return axios.get(`api/v1/excel/export/${query}`)
 // }
 
 // User ----------------------------------------------------------------------------------------------------

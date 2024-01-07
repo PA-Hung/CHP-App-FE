@@ -5,6 +5,7 @@ import UserPage from "@/components/user/user.page";
 import ProtectedRoute from "@/router/protectedRoute";
 import Login from "@/components/auth/login.page";
 import AccommodationPage from "../components/accommodation/accommodation.page";
+import AdminPage from "../components/admin/admin.page";
 
 export const router = createBrowserRouter([
   {
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <>Dashboard</>,
+        element: <AdminPage />,
       },
       {
         path: "accommodation",

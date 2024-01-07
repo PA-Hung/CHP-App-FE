@@ -29,6 +29,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/vi";
 dayjs.locale("vi");
 import * as XLSX from "xlsx";
+import { useSelector } from "react-redux";
 
 const AccommodationTable = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -42,6 +43,9 @@ const AccommodationTable = () => {
     pages: 0,
     total: 0,
   });
+  const isAdmin = useSelector((state) => state.auth.user.role);
+  const user = useSelector((state) => state.auth.user);
+  //const userId = isAdmin !== "ADMIN" ? user : "";
 
   const [loadingUpload, setLoadingUpload] = useState(false);
 
@@ -195,6 +199,9 @@ const AccommodationTable = () => {
     pageSize = meta.pageSize
   ) => {
     const clone = { ...params };
+    if (isAdmin !== "ADMIN") {
+      if (user?._id) clone.userId = `/${user._id}/i`;
+    }
     if (clone.phone) clone.phone = `/${clone.phone}/i`;
     if (clone.name) clone.name = `/${clone.name}/i`;
     if (clone.passport) clone.passport = `/${clone.passport}/i`;
@@ -204,6 +211,9 @@ const AccommodationTable = () => {
     let temp = queryString.stringify(clone);
 
     let sortBy = "";
+    if (sort && sort.userId) {
+      sortBy = sort.userId === "ascend" ? "sort=userId" : "sort=-userId";
+    }
     if (sort && sort.phone) {
       sortBy = sort.phone === "ascend" ? "sort=phone" : "sort=-phone";
     }
@@ -278,24 +288,6 @@ const AccommodationTable = () => {
     } else {
       message.error(response.data.message);
     }
-  };
-
-  // Hàm xử lý tải xuống file Excel
-  const downloadExcelFile = (buffer, fileName) => {
-    const uint8Array = new Uint8Array(buffer);
-    const blob = new Blob([uint8Array], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    });
-
-    const blobUrl = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = blobUrl;
-    link.download = fileName;
-    link.click();
-
-    // Giải phóng URL của Blob sau khi đã sử dụng
-    URL.revokeObjectURL(blobUrl);
   };
 
   const handleExport = async () => {

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     activeKey: 'home',
-    title: 'Bảng đăng ký sản xuất tiền kỳ chuyên mục tuần'
+    title: 'Home Admin'
 }
 
 export const menuSlice = createSlice({
@@ -15,7 +15,7 @@ export const menuSlice = createSlice({
         },
         setHomeKey: (state, action) => {
             state.activeKey = 'home';
-            state.title = 'Bảng đăng ký sản xuất tiền kỳ chuyên mục tuần'
+            state.title = 'Home Admin'
         },
     },
 })
