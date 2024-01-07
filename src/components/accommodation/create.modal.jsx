@@ -73,7 +73,7 @@ const CreateModal = (props) => {
         onOk={() => form.submit()}
         onCancel={resetModal}
         maskClosable={false}
-        width={"70%"}
+        width={300}
       >
         <Form
           name="create-new-accommodation"
@@ -85,11 +85,6 @@ const CreateModal = (props) => {
             label="Họ tên"
             name="name"
             rules={[{ required: true, message: "Nhập họ tên !" }]}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
           >
             <Input />
           </Form.Item>
@@ -97,11 +92,6 @@ const CreateModal = (props) => {
             name="birthday"
             label="Ngày sinh"
             rules={[{ required: true, message: "Chọn ngày sinh !" }]}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
           >
             <DatePicker
               placeholder="Chọn ngày"
@@ -113,11 +103,6 @@ const CreateModal = (props) => {
             label="Giới tính"
             name="gender"
             rules={[{ required: true, message: "Chọn giới tính !" }]}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
           >
             <Select
               placeholder="Chọn giới tính"
@@ -134,11 +119,6 @@ const CreateModal = (props) => {
             rules={[{ required: true, validator: checkField }]}
             validateStatus={IdentificationNumber ? "error" : ""}
             help={IdentificationNumber ? "Bạn phải điền CMND/CCCD !" : ""}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
           >
             <Input type="text" />
           </Form.Item>
@@ -148,10 +128,6 @@ const CreateModal = (props) => {
             rules={[{ required: true, validator: checkField }]}
             validateStatus={Passport ? "error" : ""}
             help={Passport ? "Bạn phải điền Passport !" : ""}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-            }}
           >
             <Input />
           </Form.Item>
@@ -161,67 +137,25 @@ const CreateModal = (props) => {
             name="documents"
             validateStatus={Documents ? "error" : ""}
             help={Documents ? "Bạn phải điền giấy tờ khác !" : ""}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Điện thoại"
-            name="phone"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Điện thoại" name="phone">
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Nghề nghiệp"
-            name="job"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Nghề nghiệp" name="job">
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Nơi làm việc"
-            name="workplace"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Nơi làm việc" name="workplace">
             <Input maxLength={200} />
           </Form.Item>
-          <Form.Item
-            label="Dân tộc"
-            name="ethnicity"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Dân tộc" name="ethnicity">
             <Input />
           </Form.Item>
           <Form.Item
             label="Quốc tịch"
             name="nationality"
             rules={[{ required: true, message: "Nhập quốc tịch !" }]}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
           >
             <Input />
           </Form.Item>
@@ -229,67 +163,25 @@ const CreateModal = (props) => {
             label="Quốc gia"
             name="country"
             rules={[{ required: true, message: "Nhập quốc gia !" }]}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Tỉnh thành"
-            name="province"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Tỉnh thành" name="province">
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Quận huyện"
-            name="district"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Quận huyện" name="district">
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Phường xã"
-            name="ward"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Phường xã" name="ward">
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Số nhà"
-            name="address"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Số nhà" name="address">
             <Input maxLength={400} />
           </Form.Item>
           <Form.Item
             label="Loại cư trú"
             name="residential_status"
             rules={[{ required: true, message: "Nhập loại cư trú !" }]}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
           >
             <Input />
           </Form.Item>
@@ -297,11 +189,6 @@ const CreateModal = (props) => {
             label="Ngày đến"
             name="arrival"
             rules={[{ required: true, message: "Chọn ngày đến !" }]}
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
           >
             <DatePicker
               placeholder="Chọn ngày"
@@ -309,41 +196,17 @@ const CreateModal = (props) => {
               format={"DD/MM/YYYY"}
             />
           </Form.Item>
-          <Form.Item
-            label="Ngày đi"
-            name="departure"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Ngày đi" name="departure">
             <DatePicker
               placeholder="Chọn ngày"
               style={{ width: "100%" }}
               format={"DD/MM/YYYY"}
             />
           </Form.Item>
-          <Form.Item
-            label="Lý do lưu trú"
-            name="reason"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Lý do lưu trú" name="reason">
             <Input maxLength={250} />
           </Form.Item>
-          <Form.Item
-            label="Mã căn hộ"
-            name="apartment"
-            style={{
-              display: "inline-block",
-              width: "calc(20% - 5px)",
-              marginRight: 5,
-            }}
-          >
+          <Form.Item label="Mã căn hộ" name="apartment">
             <Input maxLength={250} />
           </Form.Item>
         </Form>
