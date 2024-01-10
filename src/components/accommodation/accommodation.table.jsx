@@ -32,10 +32,12 @@ import "dayjs/locale/vi";
 dayjs.locale("vi");
 import * as XLSX from "xlsx";
 import { useSelector } from "react-redux";
+import SearchModal from "./search.modal";
 
 const AccommodationTable = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [listAccommodation, setListAccommodation] = useState([]);
   const [updateData, setUpdateData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -325,40 +327,12 @@ const AccommodationTable = () => {
         }}
       >
         <div>
-          <Form
-            name="search-form"
-            onFinish={onSearch}
-            layout="horizontal"
-            form={form}
+          <Button
+            icon={<SearchOutlined />}
+            onClick={() => setIsSearchModalOpen(true)}
           >
-            <Row gutter={8}>
-              <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-                <Form.Item label="Họ tên" name="name">
-                  <Input placeholder="Nhập tên" />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-                <Form.Item label="CMND/CCCD" name="identification_number">
-                  <Input placeholder="Nhập CMND/CCCD" />
-                </Form.Item>
-              </Col>
-              {/* <Form.Item label="Hộ chiếu" name="passport">
-              <Input placeholder="Nhập hộ chiếu" />
-            </Form.Item> */}
-              {/* <Form.Item label="Số điện thoại" name="phone">
-              <Input placeholder="Nhập số điện thoại" />
-            </Form.Item> */}
-              <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-                <Button
-                  icon={<SearchOutlined />}
-                  type={"primary"}
-                  htmlType="submit"
-                >
-                  Tìm kiếm
-                </Button>
-              </Col>
-            </Row>
-          </Form>
+            Tìm kiếm
+          </Button>
         </div>
         <div style={{ display: "flex", gap: 5 }}>
           <Button
@@ -417,6 +391,11 @@ const AccommodationTable = () => {
         isUpdateModalOpen={isUpdateModalOpen}
         setIsUpdateModalOpen={setIsUpdateModalOpen}
         setUpdateData={setUpdateData}
+      />
+      <SearchModal
+        isSearchModalOpen={isSearchModalOpen}
+        setIsSearchModalOpen={setIsSearchModalOpen}
+        onSearch={onSearch}
       />
     </div>
   );
