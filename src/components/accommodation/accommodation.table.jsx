@@ -8,6 +8,8 @@ import {
   Form,
   Input,
   Upload,
+  Row,
+  Col,
 } from "antd";
 import queryString from "query-string";
 import {
@@ -326,28 +328,36 @@ const AccommodationTable = () => {
           <Form
             name="search-form"
             onFinish={onSearch}
-            layout="inline"
+            layout="horizontal"
             form={form}
           >
-            <Form.Item label="Họ tên" name="name">
-              <Input placeholder="Nhập tên" />
-            </Form.Item>
-            <Form.Item label="CMND/CCCD" name="identification_number">
-              <Input placeholder="Nhập CMND/CCCD" />
-            </Form.Item>
-            {/* <Form.Item label="Hộ chiếu" name="passport">
+            <Row gutter={8}>
+              <Col xs={24} sm={24} md={24} lg={8} xl={8}>
+                <Form.Item label="Họ tên" name="name">
+                  <Input placeholder="Nhập tên" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={24} lg={8} xl={8}>
+                <Form.Item label="CMND/CCCD" name="identification_number">
+                  <Input placeholder="Nhập CMND/CCCD" />
+                </Form.Item>
+              </Col>
+              {/* <Form.Item label="Hộ chiếu" name="passport">
               <Input placeholder="Nhập hộ chiếu" />
             </Form.Item> */}
-            {/* <Form.Item label="Số điện thoại" name="phone">
+              {/* <Form.Item label="Số điện thoại" name="phone">
               <Input placeholder="Nhập số điện thoại" />
             </Form.Item> */}
-            <Button
-              icon={<SearchOutlined />}
-              type={"primary"}
-              htmlType="submit"
-            >
-              Tìm kiếm
-            </Button>
+              <Col xs={24} sm={24} md={24} lg={8} xl={8}>
+                <Button
+                  icon={<SearchOutlined />}
+                  type={"primary"}
+                  htmlType="submit"
+                >
+                  Tìm kiếm
+                </Button>
+              </Col>
+            </Row>
           </Form>
         </div>
         <div style={{ display: "flex", gap: 5 }}>
@@ -377,6 +387,7 @@ const AccommodationTable = () => {
       </div>
       <Table
         size="small"
+        scroll={{ x: true }}
         columns={columns}
         dataSource={listAccommodation}
         rowKey={"_id"}
@@ -393,8 +404,8 @@ const AccommodationTable = () => {
           showSizeChanger: true,
           defaultPageSize: meta.pageSize,
         }}
-      />{" "}
-      {/*  // dataSource phải là mảng Array [] */}
+      />
+
       <CreateModal
         getData={getData}
         isCreateModalOpen={isCreateModalOpen}

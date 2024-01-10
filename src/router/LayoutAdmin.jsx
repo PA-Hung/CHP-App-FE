@@ -127,9 +127,9 @@ const LayoutAdmin = () => {
       <Layout hasSider style={{ minHeight: "100vh" }}>
         <Sider
           trigger={null}
-          collapsible
           collapsed={collapsed}
-          mode="inline"
+          breakpoint="lg" // Định nghĩa điểm phá vỡ (breakpoint) khi Sidebar sẽ tự động thu gọn
+          collapsedWidth={0}
           style={{
             overflow: "hidden",
             height: "100vh",
@@ -152,7 +152,7 @@ const LayoutAdmin = () => {
             <ToggleThemeButton toggleTheme={toggleTheme} />
           </div>
         </Sider>
-        <Layout style={{ marginLeft: collapsed ? "80px" : "200px" }}>
+        <Layout style={{ marginLeft: collapsed ? "0px" : "200px" }}>
           <HeaderAdmin
             toggleCollapsed={toggleCollapsed}
             collapsed={collapsed}
@@ -175,7 +175,7 @@ const LayoutAdmin = () => {
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
-            BRT APP ©2023 Created by Phan Anh Hùng
+            CHP App ©2023 Created by Phan Anh Hùng
           </Footer>
         </Layout>
       </Layout>
