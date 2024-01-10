@@ -1,47 +1,18 @@
 import { useEffect, useState } from "react";
-import {
-  Table,
-  Button,
-  notification,
-  Popconfirm,
-  message,
-  Form,
-  Input,
-  Upload,
-  Row,
-  Col,
-  Flex,
-} from "antd";
+import { Table, Button, notification, Popconfirm, message } from "antd";
 import queryString from "query-string";
-import {
-  PlusOutlined,
-  SearchOutlined,
-  ImportOutlined,
-  DownloadOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
-import {
-  deleteAccommodation,
-  exportExcel,
-  getAccommodation,
-  importExcel,
-} from "../../utils/api";
-import CreateModal from "./create.modal";
-import UpdateModal from "./update.modal";
+import { deleteAccommodation, getAccommodation } from "../../utils/api";
 import dayjs from "dayjs";
 import "dayjs/locale/vi";
 dayjs.locale("vi");
-import * as XLSX from "xlsx";
 import { useSelector } from "react-redux";
-import SearchModal from "./search.modal";
+import UpdateModal from "./update.modal";
 
-const AccommodationTable = () => {
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+const AccommodationTable = (props) => {
+  const { listAccommodation, setListAccommodation, loading, setLoading } =
+    props;
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [listAccommodation, setListAccommodation] = useState([]);
   const [updateData, setUpdateData] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [meta, setMeta] = useState({
     current: 1,
     pageSize: 15,
@@ -51,8 +22,6 @@ const AccommodationTable = () => {
   const isAdmin = useSelector((state) => state.auth.user.role);
   const user = useSelector((state) => state.auth.user);
   //const userId = isAdmin !== "ADMIN" ? user : "";
-
-  const [loadingUpload, setLoadingUpload] = useState(false);
 
   useEffect(() => {
     getData();
@@ -194,8 +163,6 @@ const AccommodationTable = () => {
     });
   };
 
-  const [form] = Form.useForm();
-
   const buildQuery = (
     params,
     sort,
@@ -253,154 +220,8 @@ const AccommodationTable = () => {
     return temp;
   };
 
-  const onSearch = async (value) => {
-    const query = buildQuery(value);
-    setLoading(true);
-    const res = await getAccommodation(query);
-    if (res.data) {
-      setListAccommodation(res.data.result);
-      setMeta({
-        current: res.data.meta.current,
-        pageSize: res.data.meta.pageSize,
-        pages: res.data.meta.pages,
-        total: res.data.meta.total,
-      });
-    } else {
-      notification.error({
-        message: "Có lỗi xảy ra",
-        description: res.message,
-      });
-    }
-    setLoading(false);
-  };
-
-  const beforeUpload = (file) => {
-    const isXLSX =
-      file.type ===
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    if (!isXLSX) {
-      message.error(`${file.name} không phải là file excel`);
-    }
-    return isXLSX || Upload.LIST_IGNORE;
-  };
-
-  const handleUploadFileExcel = async ({ file }) => {
-    const response = await importExcel(file, "fileExcel");
-    if (response.statusCode === 201) {
-      message.success(response.data.message);
-      setLoadingUpload(false);
-      getData();
-    } else {
-      message.error(response.data.message);
-    }
-  };
-
-  const handleExport = async () => {
-    try {
-      const response = await exportExcel();
-      if (response.statusCode === 200) {
-        // Chuyển đổi Buffer thành ArrayBuffer
-        // Chuyển đổi dữ liệu JSON thành worksheet của workbook
-        const ws = XLSX.utils.json_to_sheet(response.data);
-
-        // Tạo workbook và append worksheet vào đó
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
-
-        // Tạo tệp Excel và tải về
-        XLSX.writeFile(wb, "exported_data.xlsx");
-      }
-    } catch (error) {
-      console.error("Export error:", error);
-      // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-    }
-  };
-
   return (
-    <div style={{ paddingLeft: 30, paddingRight: 30 }}>
-      <div style={{ padding: 20 }}>
-        <Flex justify="space-between" align="center">
-          <Row gutter={[8, 8]}>
-            <Col xs={0} sm={24} md={24} lg={12} xl={12}>
-              <Button
-                icon={<SearchOutlined />}
-                onClick={() => setIsSearchModalOpen(true)}
-              >
-                Tìm kiếm
-              </Button>
-            </Col>
-            <Col xs={24} sm={0} md={0} lg={0} xl={0}>
-              <Button
-                icon={<SearchOutlined />}
-                onClick={() => setIsSearchModalOpen(true)}
-              />
-            </Col>
-            <Col xs={0} sm={24} md={24} lg={12} xl={12}>
-              <Button
-                icon={<PlusOutlined />}
-                onClick={() => setIsCreateModalOpen(true)}
-              >
-                Thêm mới
-              </Button>
-            </Col>
-            <Col xs={24} sm={0} md={0} lg={0} xl={0}>
-              <Button
-                icon={<PlusOutlined />}
-                onClick={() => setIsCreateModalOpen(true)}
-              />
-            </Col>
-          </Row>
-          <Row gutter={[8, 8]}>
-            <Col xs={0} sm={24} md={24} lg={12} xl={12}>
-              <Upload
-                maxCount={1}
-                multiple={false}
-                showUploadList={false}
-                beforeUpload={beforeUpload}
-                customRequest={handleUploadFileExcel}
-              >
-                <Button
-                  icon={
-                    loadingUpload ? <LoadingOutlined /> : <ImportOutlined />
-                  }
-                >
-                  Import Excel
-                </Button>
-              </Upload>
-            </Col>
-            <Col xs={24} sm={0} md={0} lg={0} xl={0}>
-              <Upload
-                maxCount={1}
-                multiple={false}
-                showUploadList={false}
-                beforeUpload={beforeUpload}
-                customRequest={handleUploadFileExcel}
-              >
-                <Button
-                  icon={
-                    loadingUpload ? <LoadingOutlined /> : <ImportOutlined />
-                  }
-                />
-              </Upload>
-            </Col>
-            <Col xs={0} sm={24} md={24} lg={12} xl={12}>
-              <Button
-                icon={<DownloadOutlined />}
-                onClick={() => handleExport()}
-              >
-                Export Excel
-              </Button>
-            </Col>
-            <Col xs={24} sm={0} md={0} lg={0} xl={0}>
-              <Button
-                icon={<DownloadOutlined />}
-                onClick={() => handleExport()}
-              />
-            </Col>
-          </Row>
-        </Flex>
-      </div>
-
+    <>
       <Table
         size="small"
         scroll={{ x: true }}
@@ -421,12 +242,6 @@ const AccommodationTable = () => {
           defaultPageSize: meta.pageSize,
         }}
       />
-
-      <CreateModal
-        getData={getData}
-        isCreateModalOpen={isCreateModalOpen}
-        setIsCreateModalOpen={setIsCreateModalOpen}
-      />
       <UpdateModal
         updateData={updateData}
         getData={getData}
@@ -434,12 +249,7 @@ const AccommodationTable = () => {
         setIsUpdateModalOpen={setIsUpdateModalOpen}
         setUpdateData={setUpdateData}
       />
-      <SearchModal
-        isSearchModalOpen={isSearchModalOpen}
-        setIsSearchModalOpen={setIsSearchModalOpen}
-        onSearch={onSearch}
-      />
-    </div>
+    </>
   );
 };
 
