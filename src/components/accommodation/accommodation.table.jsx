@@ -10,6 +10,7 @@ import {
   Upload,
   Row,
   Col,
+  Flex,
 } from "antd";
 import queryString from "query-string";
 import {
@@ -317,48 +318,89 @@ const AccommodationTable = () => {
 
   return (
     <div style={{ paddingLeft: 30, paddingRight: 30 }}>
-      <div
-        style={{
-          color: "black",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: 20,
-        }}
-      >
-        <div>
-          <Button
-            icon={<SearchOutlined />}
-            onClick={() => setIsSearchModalOpen(true)}
-          >
-            Tìm kiếm
-          </Button>
-        </div>
-        <div style={{ display: "flex", gap: 5 }}>
-          <Button
-            icon={<PlusOutlined />}
-            onClick={() => setIsCreateModalOpen(true)}
-          >
-            Thêm mới
-          </Button>
-          <Upload
-            maxCount={1}
-            multiple={false}
-            showUploadList={false}
-            beforeUpload={beforeUpload}
-            customRequest={handleUploadFileExcel}
-          >
-            <Button
-              icon={loadingUpload ? <LoadingOutlined /> : <ImportOutlined />}
-            >
-              Import Excel
-            </Button>
-          </Upload>
-          <Button icon={<DownloadOutlined />} onClick={() => handleExport()}>
-            Export Excel
-          </Button>
-        </div>
+      <div style={{ padding: 20 }}>
+        <Flex justify="space-between" align="center">
+          <Row gutter={[8, 8]}>
+            <Col xs={0} sm={24} md={24} lg={12} xl={12}>
+              <Button
+                icon={<SearchOutlined />}
+                onClick={() => setIsSearchModalOpen(true)}
+              >
+                Tìm kiếm
+              </Button>
+            </Col>
+            <Col xs={24} sm={0} md={0} lg={0} xl={0}>
+              <Button
+                icon={<SearchOutlined />}
+                onClick={() => setIsSearchModalOpen(true)}
+              />
+            </Col>
+            <Col xs={0} sm={24} md={24} lg={12} xl={12}>
+              <Button
+                icon={<PlusOutlined />}
+                onClick={() => setIsCreateModalOpen(true)}
+              >
+                Thêm mới
+              </Button>
+            </Col>
+            <Col xs={24} sm={0} md={0} lg={0} xl={0}>
+              <Button
+                icon={<PlusOutlined />}
+                onClick={() => setIsCreateModalOpen(true)}
+              />
+            </Col>
+          </Row>
+          <Row gutter={[8, 8]}>
+            <Col xs={0} sm={24} md={24} lg={12} xl={12}>
+              <Upload
+                maxCount={1}
+                multiple={false}
+                showUploadList={false}
+                beforeUpload={beforeUpload}
+                customRequest={handleUploadFileExcel}
+              >
+                <Button
+                  icon={
+                    loadingUpload ? <LoadingOutlined /> : <ImportOutlined />
+                  }
+                >
+                  Import Excel
+                </Button>
+              </Upload>
+            </Col>
+            <Col xs={24} sm={0} md={0} lg={0} xl={0}>
+              <Upload
+                maxCount={1}
+                multiple={false}
+                showUploadList={false}
+                beforeUpload={beforeUpload}
+                customRequest={handleUploadFileExcel}
+              >
+                <Button
+                  icon={
+                    loadingUpload ? <LoadingOutlined /> : <ImportOutlined />
+                  }
+                />
+              </Upload>
+            </Col>
+            <Col xs={0} sm={24} md={24} lg={12} xl={12}>
+              <Button
+                icon={<DownloadOutlined />}
+                onClick={() => handleExport()}
+              >
+                Export Excel
+              </Button>
+            </Col>
+            <Col xs={24} sm={0} md={0} lg={0} xl={0}>
+              <Button
+                icon={<DownloadOutlined />}
+                onClick={() => handleExport()}
+              />
+            </Col>
+          </Row>
+        </Flex>
       </div>
+
       <Table
         size="small"
         scroll={{ x: true }}

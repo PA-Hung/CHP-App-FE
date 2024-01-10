@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Dropdown, Space, notification } from "antd";
+import { Layout, Dropdown, Space, notification, Row, Col } from "antd";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -97,7 +97,15 @@ const HeaderAdmin = (props) => {
             color: themeMode === "light" ? "black" : "white",
           }}
         >
-          <h2>{activeTitle}</h2>
+          <Row>
+            <Col xs={0} sm={0} md={0} lg={24} xl={24}>
+              <h3>{activeTitle}</h3>
+            </Col>
+
+            <Col xs={24} sm={24} md={24} lg={0} xl={0}>
+              <h5>{activeTitle}</h5>
+            </Col>
+          </Row>
         </div>
         <div style={{ paddingBottom: 3 }}>
           <Dropdown menu={{ items }}>
