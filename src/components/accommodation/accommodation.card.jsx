@@ -17,10 +17,10 @@ import {
   CaretRightOutlined,
 } from "@ant-design/icons";
 import { deleteAccommodation } from "../../utils/api";
+import UpdateModal from "./update.modal";
 import dayjs from "dayjs";
 import "dayjs/locale/vi";
 dayjs.locale("vi");
-import UpdateModal from "./update.modal";
 
 const AccommodationCard = (props) => {
   const { listAccommodation, loading, getData } = props;
@@ -101,7 +101,6 @@ const AccommodationCard = (props) => {
                 <p>CMND/CCCD : {item.identification_number}</p>
                 <p>Hộ chiếu : {item.passport}</p>
                 <p>Quốc tịch : {item.nationality}</p>
-                <p>Quốc gia : {item.country}</p>
                 <p>Loại cư trú : {item.residential_status}</p>
                 <p>Ngày đến : {dayjs(item.arrival).format("DD/MM/YYYY")}</p>
                 <Collapse
@@ -155,6 +154,7 @@ const AccommodationCard = (props) => {
                           </p>
                           <p>Giới tính : {item.gender}</p>
                           <p>Giấy tờ khác : {item.documents}</p>
+                          <p>Quốc gia : {item.country}</p>
                           <p>Điện thoại : {item.phone}</p>
                           <p>Nghề nghiệp : {item.job}</p>
                           <p>Nơi làm việc : {item.workplace}</p>

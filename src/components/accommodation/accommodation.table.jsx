@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Table, Button, notification, Popconfirm, message } from "antd";
+import {
+  Table,
+  Button,
+  notification,
+  Popconfirm,
+  message,
+  Descriptions,
+  Badge,
+} from "antd";
 import { deleteAccommodation, getAccommodation } from "../../utils/api";
 import dayjs from "dayjs";
 import "dayjs/locale/vi";
@@ -50,15 +58,20 @@ const AccommodationTable = (props) => {
       title: "Họ tên",
       dataIndex: "name",
       key: "name",
+      render: (_value, record) => {
+        return (
+          <div
+            style={{
+              cursor: "pointer",
+              textDecoration: "underline",
+              color: "blueviolet",
+            }}
+          >
+            {record.name}
+          </div>
+        );
+      },
     },
-    // {
-    //   title: "Ngày sinh",
-    //   dataIndex: "birthday",
-    //   key: "birthday",
-    //   render: (_value, record) => {
-    //     return <div>{dayjs(record.birthday).format("DD/MM/YYYY")}</div>;
-    //   },
-    // },
     {
       title: "CMND/CCCD",
       dataIndex: "identification_number",
@@ -73,11 +86,6 @@ const AccommodationTable = (props) => {
       title: "Quốc tịch",
       dataIndex: "nationality",
       key: "nationality",
-    },
-    {
-      title: "Quốc gia",
-      dataIndex: "country",
-      key: "country",
     },
     {
       title: "Loại cư trú",
@@ -126,6 +134,43 @@ const AccommodationTable = (props) => {
     },
   ];
 
+  const expandableTable = (record) => (
+    <Descriptions title="Thông tin chi tiết" bordered>
+      <Descriptions.Item label="Ngày sinh">
+        {dayjs(record.birthday).format("DD/MM/YYYY")}
+      </Descriptions.Item>
+      <Descriptions.Item label="Giới tính">{record.gender}</Descriptions.Item>
+      <Descriptions.Item label="Giấy tờ khác">
+        {record.documents}
+      </Descriptions.Item>
+      <Descriptions.Item label="Quốc gia">{record.country}</Descriptions.Item>
+      <Descriptions.Item label="Điện thoại">{record.phone}</Descriptions.Item>
+      <Descriptions.Item label="Nghề nghiệp">{record.job}</Descriptions.Item>
+
+      <Descriptions.Item label="Nơi làm việc">
+        {record.workplace}
+      </Descriptions.Item>
+      <Descriptions.Item label="Dân tộc">{record.ethnicity}</Descriptions.Item>
+      <Descriptions.Item label="Tỉnh thành">
+        {record.province}
+      </Descriptions.Item>
+      <Descriptions.Item label="Quận huyện">
+        {record.district}
+      </Descriptions.Item>
+      <Descriptions.Item label="Phường xã">{record.ward}</Descriptions.Item>
+      <Descriptions.Item label="Địa chỉ">{record.address}</Descriptions.Item>
+      <Descriptions.Item label="Ngày đi ">
+        {dayjs(record.departure).format("DD/MM/YYYY")}
+      </Descriptions.Item>
+      <Descriptions.Item label="Lý do lưu trú">
+        {record.reason}
+      </Descriptions.Item>
+      <Descriptions.Item label="Mã căn hộ">
+        {record.apartment}
+      </Descriptions.Item>
+    </Descriptions>
+  );
+
   const handleOnchangeTable = (page, pageSize) => {
     setMeta({
       current: page,
@@ -145,6 +190,10 @@ const AccommodationTable = (props) => {
         rowKey={"_id"}
         loading={loading}
         bordered={true}
+        expandable={{
+          expandedRowRender: expandableTable,
+          expandRowByClick: true,
+        }}
         pagination={{
           position: ["bottomCenter"],
           current: meta.current,
