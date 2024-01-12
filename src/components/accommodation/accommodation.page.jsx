@@ -26,7 +26,7 @@ const AccommodationPage = () => {
   const [loading, setLoading] = useState(false);
   const [meta, setMeta] = useState({
     current: 1,
-    pageSize: 15,
+    pageSize: 10,
     pages: 0,
     total: 0,
   });
@@ -112,7 +112,7 @@ const AccommodationPage = () => {
 
     //mặc định sort theo updatedAt
     if (Object.keys(sortBy).length === 0) {
-      temp = `current=${page}&pageSize=${pageSize}&${temp}&sort=-updatedAt`;
+      temp = `current=${page}&pageSize=${pageSize}&${temp}&sort=-arrival`;
     } else {
       temp = `current=${page}&pageSize=${pageSize}&${temp}&${sortBy}`;
     }
@@ -165,7 +165,6 @@ const AccommodationPage = () => {
     try {
       const response = await exportExcel();
       if (response.statusCode === 200) {
-        // Chuyển đổi Buffer thành ArrayBuffer
         // Chuyển đổi dữ liệu JSON thành worksheet của workbook
         const ws = XLSX.utils.json_to_sheet(response.data);
 
@@ -267,20 +266,20 @@ const AccommodationPage = () => {
         </Flex>
       </div>
       <Row>
-        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+        <Col xs={24} sm={24} md={24} lg={0} xl={0}>
           <AccommodationCard
             listAccommodation={listAccommodation}
             setListAccommodation={setListAccommodation}
             loading={loading}
             setLoading={setLoading}
+            getData={getData}
           />
         </Col>
-        <Col xs={0} sm={0} md={0} lg={0} xl={0}>
+        <Col xs={0} sm={0} md={0} lg={24} xl={24}>
           <AccommodationTable
             listAccommodation={listAccommodation}
-            setListAccommodation={setListAccommodation}
             loading={loading}
-            setLoading={setLoading}
+            getData={getData}
           />
         </Col>
       </Row>

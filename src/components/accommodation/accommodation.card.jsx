@@ -3,26 +3,27 @@ import {
   Collapse,
   notification,
   message,
-  Form,
   Card,
   Flex,
   Spin,
   Pagination,
   Button,
   Popconfirm,
+  Col,
 } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import queryString from "query-string";
-import { deleteAccommodation, getAccommodation } from "../../utils/api";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  CaretRightOutlined,
+} from "@ant-design/icons";
+import { deleteAccommodation } from "../../utils/api";
 import dayjs from "dayjs";
 import "dayjs/locale/vi";
 dayjs.locale("vi");
-import { useSelector } from "react-redux";
 import UpdateModal from "./update.modal";
 
 const AccommodationCard = (props) => {
-  const { listAccommodation, setListAccommodation, loading, setLoading } =
-    props;
+  const { listAccommodation, loading, getData } = props;
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [updateData, setUpdateData] = useState(null);
   const [meta, setMeta] = useState({
@@ -31,35 +32,10 @@ const AccommodationCard = (props) => {
     pages: 0,
     total: 0,
   });
-  const isAdmin = useSelector((state) => state.auth.user.role);
-  const user = useSelector((state) => state.auth.user);
-  //const userId = isAdmin !== "ADMIN" ? user : "";
 
   useEffect(() => {
     getData();
   }, [meta.current, meta.pageSize]);
-
-  const getData = async () => {
-    const query = buildQuery();
-    setLoading(true);
-    const res = await getAccommodation(query);
-    if (res.data) {
-      setListAccommodation(res.data.result);
-      setMeta({
-        current: res?.data?.meta?.current,
-        pageSize: res?.data?.meta?.pageSize,
-        pages: res.data.meta.pages,
-        total: res.data.meta.total,
-      });
-    } else {
-      notification.error({
-        message: "Có lỗi xảy ra",
-        placement: "top",
-        description: res.message,
-      });
-    }
-    setLoading(false);
-  };
 
   const confirmDelete = async (user) => {
     const res = await deleteAccommodation(user._id);
@@ -84,64 +60,19 @@ const AccommodationCard = (props) => {
     });
   };
 
-  const buildQuery = (
-    params,
-    sort,
-    filter,
-    page = meta.current,
-    pageSize = meta.pageSize
-  ) => {
-    const clone = { ...params };
-    if (isAdmin !== "ADMIN") {
-      if (user?._id) clone.userId = `/${user._id}/i`;
-    }
-    if (clone.phone) clone.phone = `/${clone.phone}/i`;
-    if (clone.name) clone.name = `/${clone.name}/i`;
-    if (clone.passport) clone.passport = `/${clone.passport}/i`;
-    if (clone.identification_number)
-      clone.identification_number = `/${clone.identification_number}/i`;
-
-    let temp = queryString.stringify(clone);
-
-    let sortBy = "";
-    if (sort && sort.userId) {
-      sortBy = sort.userId === "ascend" ? "sort=userId" : "sort=-userId";
-    }
-    if (sort && sort.phone) {
-      sortBy = sort.phone === "ascend" ? "sort=phone" : "sort=-phone";
-    }
-    if (sort && sort.name) {
-      sortBy = sort.name === "ascend" ? "sort=name" : "sort=-name";
-    }
-    if (sort && sort.passport) {
-      sortBy = sort.passport === "ascend" ? "sort=passport" : "sort=-passport";
-    }
-    if (sort && sort.identification_number) {
-      sortBy =
-        sort.identification_number === "ascend"
-          ? "sort=identification_number"
-          : "sort=-identification_number";
-    }
-
-    if (sort && sort.createdAt) {
-      sortBy =
-        sort.createdAt === "ascend" ? "sort=createdAt" : "sort=-createdAt";
-    }
-    if (sort && sort.updatedAt) {
-      sortBy =
-        sort.updatedAt === "ascend" ? "sort=updatedAt" : "sort=-updatedAt";
-    }
-
-    //mặc định sort theo updatedAt
-    if (Object.keys(sortBy).length === 0) {
-      temp = `current=${page}&pageSize=${pageSize}&${temp}&sort=-updatedAt`;
-    } else {
-      temp = `current=${page}&pageSize=${pageSize}&${temp}&${sortBy}`;
-    }
-    return temp;
-  };
-
   const { Meta } = Card;
+
+  const customExpandIcon = () => {
+    // Thay đổi biểu tượng mở rộng ở đây, ví dụ sử dụng CaretRightOutlined
+    return (
+      <CaretRightOutlined
+        style={{
+          fontSize: 20,
+          marginTop: 10,
+        }}
+      />
+    );
+  };
 
   return (
     <div
@@ -174,7 +105,9 @@ const AccommodationCard = (props) => {
                 <p>Loại cư trú : {item.residential_status}</p>
                 <p>Ngày đến : {dayjs(item.arrival).format("DD/MM/YYYY")}</p>
                 <Collapse
+                  expandIcon={customExpandIcon}
                   accordion
+                  size="small"
                   items={[
                     {
                       key: "1",
@@ -189,7 +122,12 @@ const AccommodationCard = (props) => {
                             gap: 10,
                           }}
                         >
-                          <div>Xem chi tiêt</div>
+                          <div>
+                            <Col xs={0} sm={24} md={24} lg={24} xl={24}>
+                              Xem chi tiêt
+                            </Col>
+                          </div>
+
                           <div style={{ display: "flex", gap: 5 }}>
                             <Popconfirm
                               title={`Bạn muốn xoá ${item.name} không ?`}
