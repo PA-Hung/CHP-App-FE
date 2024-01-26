@@ -1,5 +1,4 @@
-import { Modal, Form, Row, Col, Input, Button } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Modal, Form, Row, Col, Input } from "antd";
 import React from "react";
 
 const SearchModal = (props) => {
@@ -16,7 +15,7 @@ const SearchModal = (props) => {
   return (
     <>
       <Modal
-        title="Tìm kiếm thông tin lưu trú"
+        title="Tìm kiếm"
         open={isSearchModalOpen}
         onCancel={resetModal}
         onOk={handleSearch}

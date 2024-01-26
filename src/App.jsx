@@ -26,7 +26,7 @@ function App() {
       <div>
         <div className="home">
           <div onClick={() => navigate("/login")}>
-            <img src={chpLogo} className="logo" alt="brt logo" />
+            <img src={chpLogo} className="logo" alt="chp logo" />
           </div>
         </div>
       </div>
