@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { Layout, ConfigProvider, Menu, notification, theme } from "antd";
+import {
+  Layout,
+  ConfigProvider,
+  Menu,
+  notification,
+  theme,
+  Row,
+  Col,
+} from "antd";
 import {
   HomeOutlined,
   UserSwitchOutlined,
@@ -122,6 +130,25 @@ const LayoutAdmin = () => {
 
   const filteredItems = items.filter((item) => item.visible === "true");
 
+  useEffect(() => {
+    const handleResize = () => {
+      // Kiểm tra kích thước màn hình ở đây và cập nhật giá trị của collapsed
+      if (window.innerWidth <= 768) {
+        setCollapsed(true);
+      } else {
+        setCollapsed(false);
+      }
+    };
+    // Thêm sự kiện lắng nghe cho thay đổi kích thước màn hình
+    window.addEventListener("resize", handleResize);
+    // Gọi handleResize lần đầu tiên để thiết lập giá trị mặc định
+    handleResize();
+    // Cleanup sự kiện khi component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <ConfigProvider theme={themeMode === "dark" ? darkConfig : lightConfig}>
       <Layout hasSider style={{ minHeight: "100vh" }}>
@@ -174,9 +201,13 @@ const LayoutAdmin = () => {
               <Outlet />
             </div>
           </Content>
-          <Footer style={{ textAlign: "center" }}>
-            CHP App ©2023 Created by Phan Anh Hùng
-          </Footer>
+          <Row>
+            <Col xs={0} sm={0} md={0} lg={24} xl={24}>
+              <Footer style={{ textAlign: "center" }}>
+                CHP App ©2023 Created by Phan Anh Hùng
+              </Footer>
+            </Col>
+          </Row>
         </Layout>
       </Layout>
     </ConfigProvider>

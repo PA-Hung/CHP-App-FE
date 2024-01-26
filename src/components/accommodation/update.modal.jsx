@@ -158,7 +158,7 @@ const UpdateModal = (props) => {
   return (
     <>
       <Modal
-        title="Cập nhật thông tin lưu trú"
+        title="Cập nhật lưu trú"
         open={isUpdateModalOpen}
         onOk={() => form.submit()}
         onCancel={resetModal}

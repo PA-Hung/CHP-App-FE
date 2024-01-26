@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import BrtLogo from "./assets/brt.png";
+import chpLogo from "../src/assets/chpLogo.png";
 import "./styles/app.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -25,14 +25,9 @@ function App() {
     <div className="home">
       <div>
         <div className="home">
-          <div>
-            <img src={BrtLogo} className="logo" alt="brt logo" />
+          <div onClick={() => navigate("/login")}>
+            <img src={chpLogo} className="logo" alt="brt logo" />
           </div>
-          <h1>BRT Phòng Chuyên Đề</h1>
-          <div className="card">
-            <button onClick={() => navigate("/login")}>Login</button>
-          </div>
-          <p className="read-the-docs">BRT Home</p>
         </div>
       </div>
     </div>

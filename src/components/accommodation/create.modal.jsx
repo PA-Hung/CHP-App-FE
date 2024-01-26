@@ -70,7 +70,7 @@ const CreateModal = (props) => {
   return (
     <>
       <Modal
-        title="Thêm mới thông tin lưu trú"
+        title="Thêm mới lưu trú"
         open={isCreateModalOpen}
         onOk={() => form.submit()}
         onCancel={resetModal}

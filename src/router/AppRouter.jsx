@@ -1,6 +1,6 @@
 import App from "@/App";
 import { createBrowserRouter } from "react-router-dom";
-import LayoutAdmin from "@/router/layoutAdmin";
+import LayoutAdmin from "./LayoutAdmin";
 import UserPage from "@/components/user/user.page";
 import ProtectedRoute from "@/router/protectedRoute";
 import Login from "@/components/auth/login.page";

@@ -107,16 +107,20 @@ const HeaderAdmin = (props) => {
             </Col>
           </Row>
         </div>
-        <div style={{ paddingBottom: 3 }}>
-          <Dropdown menu={{ items }}>
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
-                {loginName}
-                <DownOutlined />
-              </Space>
-            </a>
-          </Dropdown>
-        </div>
+        <Row>
+          <Col xs={0} sm={0} md={0} lg={24} xl={24}>
+            <div style={{ paddingBottom: 3 }}>
+              <Dropdown menu={{ items }}>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    {loginName}
+                    <DownOutlined />
+                  </Space>
+                </a>
+              </Dropdown>
+            </div>
+          </Col>
+        </Row>
       </Header>
     </>
   );

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import BrtLogo from "../../assets/brt.png";
+import chpLogo from "../../assets/chpLogo.png";
 
 const Logo = () => {
   const themeMode = useSelector((state) => state.theme.themeMode);
@@ -13,7 +13,7 @@ const Logo = () => {
       }}
     >
       <div style={{ padding: "10px" }}>
-        <img src={BrtLogo} alt="logo" style={{ width: 75, height: 25 }} />
+        <img src={chpLogo} alt="logo" style={{ width: 190, height: 71 }} />
       </div>
     </div>
   );
